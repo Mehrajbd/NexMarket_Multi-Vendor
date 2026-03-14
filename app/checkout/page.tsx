@@ -95,7 +95,7 @@ const CheckoutPage = () => {
                                     <h2 className="text-2xl font-bold">Shipping Information</h2>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium">First Name</label>
                                         <Input defaultValue={user?.name.split(' ')[0] || ''} placeholder="John" className="h-12 bg-background shadow-sm" />
@@ -156,7 +156,7 @@ const CheckoutPage = () => {
                                         <label className="text-sm font-medium">Card Number</label>
                                         <Input placeholder="0000 0000 0000 0000" className="h-12 bg-background shadow-sm" />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="space-y-2">
                                             <label className="text-sm font-medium">Expiry</label>
                                             <Input placeholder="MM/YY" className="h-12 bg-background shadow-sm" />
@@ -172,7 +172,7 @@ const CheckoutPage = () => {
 
                         {/* Order Review */}
                         <div>
-                            <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 shadow-xl border sticky top-24">
+                            <div className="p-6 md:p-8 rounded-3xl bg-white dark:bg-slate-900 shadow-xl border lg:sticky lg:top-24">
                                 <h2 className="text-2xl font-bold mb-8">Order Review</h2>
 
                                 <div className="space-y-6 mb-8 max-h-[300px] overflow-y-auto pr-2">

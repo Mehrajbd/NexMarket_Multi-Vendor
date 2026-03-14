@@ -47,7 +47,7 @@ const AdminSidebar = () => {
     const pathname = usePathname();
 
     return (
-        <div className="flex h-screen w-64 flex-col border-r bg-slate-900 text-white">
+        <div className="hidden md:flex h-screen w-64 flex-col border-r bg-slate-900 text-white flex-shrink-0">
             <div className="flex h-16 items-center px-6 border-b border-slate-800">
                 <Link href="/" className="flex items-center space-x-2">
                     <div className="h-8 w-8 rounded-lg bg-indigo-500 flex items-center justify-center text-white font-bold">A</div>

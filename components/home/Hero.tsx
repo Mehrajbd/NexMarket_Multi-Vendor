@@ -18,13 +18,13 @@ const Hero = () => {
                 <div className="glass-morphism rounded-[64px] border border-white/5 bg-slate-900/40 overflow-hidden">
                     <div className="grid grid-cols-1 lg:grid-cols-2">
                         {/* Left Content */}
-                        <div className="p-12 md:p-24 flex flex-col justify-center">
+                        <div className="p-6 md:p-12 lg:p-24 flex flex-col justify-center">
                             <motion.div
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8 }}
                             >
-                                <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-8 leading-[0.9]">
+                                <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-white mb-6 md:mb-8 leading-[0.9]">
                                     The New <br />
                                     <span className="text-slate-500 italic">Standard</span> <br />
                                     <span className="bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent">of Excellence.</span>
@@ -42,7 +42,7 @@ const Hero = () => {
                                     </Button>
                                 </div>
 
-                                <div className="flex items-center gap-12 pt-12 border-t border-white/5">
+                                <div className="flex flex-wrap items-center gap-6 sm:gap-12 pt-12 border-t border-white/5">
                                     <div className="flex flex-col">
                                         <span className="text-3xl font-black text-white tracking-tighter">12k+</span>
                                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Premium Brands</span>
@@ -56,7 +56,7 @@ const Hero = () => {
                         </div>
 
                         {/* Right Image */}
-                        <div className="relative h-[600px] lg:h-auto bg-[#1a1c24] overflow-hidden">
+                        <div className="relative h-[400px] sm:h-[500px] lg:h-auto bg-[#1a1c24] overflow-hidden">
                             <motion.div
                                 initial={{ opacity: 0, scale: 1.1 }}
                                 animate={{ opacity: 1, scale: 1 }}

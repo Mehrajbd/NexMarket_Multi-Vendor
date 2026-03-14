@@ -16,7 +16,7 @@ export default function Home() {
       {/* Flash Sale Bar */}
       <section className="py-6 bg-slate-900 border-y border-white/5">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500">
                 <Zap className="h-6 w-6 fill-current" />
@@ -76,7 +76,7 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-4xl font-black tracking-tighter text-white mb-4 italic">Premier <span className="text-indigo-500">Partners</span></h2>
+              <h2 className="text-4xl font-black tracking-tighter text-white mb-4 italic text-center md:text-left">Premier <span className="text-indigo-500">Partners</span></h2>
               <p className="text-slate-500 font-medium text-lg leading-relaxed">
                 Discover the makers behind the brands. We only partner with vendors who meet our rigorous standards for quality and ethics.
               </p>
@@ -111,9 +111,9 @@ export default function Home() {
       {/* Modern Indigo Newsletter Section */}
       <section className="py-40">
         <div className="container mx-auto px-6">
-          <div className="bg-indigo-600 rounded-[64px] p-12 md:p-32 text-center relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[120px] -mr-64 -mt-64" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-black/10 rounded-full blur-[100px] -ml-64 -mb-64" />
+          <div className="bg-indigo-600 rounded-[32px] md:rounded-[64px] p-8 md:p-32 text-center relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-72 md:w-[500px] h-72 md:h-[500px] bg-white/10 rounded-full blur-[80px] md:blur-[120px] -mr-32 md:-mr-64 -mt-32 md:-mt-64 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-72 md:w-[500px] h-72 md:h-[500px] bg-black/10 rounded-full blur-[60px] md:blur-[100px] -ml-32 md:-ml-64 -mb-32 md:-mb-64 pointer-events-none" />
 
             <div className="relative z-10">
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-8">Join the NexMarket Elite.</h2>

@@ -98,7 +98,7 @@ const CartPage = () => {
 
                     {/* Summary */}
                     <aside className="space-y-6">
-                        <div className="p-8 rounded-3xl border bg-slate-950 text-white shadow-2xl relative overflow-hidden">
+                        <div className="p-6 md:p-8 rounded-3xl border bg-slate-950 text-white shadow-2xl relative overflow-hidden">
                             <div className="relative z-10">
                                 <h2 className="text-2xl font-bold mb-8">Order Summary</h2>
 
