@@ -46,6 +46,10 @@ const Navbar = () => {
         { name: 'Gallery', href: '/gallery' },
     ];
 
+    const isHidden = pathname?.startsWith('/admin') || pathname?.startsWith('/vendor');
+
+    if (isHidden) return null;
+
     return (
         <nav className="fixed top-0 z-50 w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/5">
             <div className="container mx-auto px-6">

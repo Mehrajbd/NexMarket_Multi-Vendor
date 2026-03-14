@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import { MessageSquare, X, Send, Bot, User, Loader2, Sparkles, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,7 +20,11 @@ const FloatingChatbot = () => {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
     const [isTyping, setIsTyping] = useState(false);
+    const pathname = usePathname();
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const isHidden = pathname?.startsWith('/admin') || pathname?.startsWith('/vendor');
+    if (isHidden) return null;
 
     // Initial Greeting
     useEffect(() => {

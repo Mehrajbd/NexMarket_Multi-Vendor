@@ -1,10 +1,18 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Facebook, Twitter, Instagram, Youtube, Zap, Mail, Phone, ShieldCheck } from 'lucide-react';
 
 const Footer = () => {
+    const pathname = usePathname();
+    const isHidden = pathname?.startsWith('/admin') || pathname?.startsWith('/vendor');
+
+    if (isHidden) return null;
+
     return (
-        <footer className="bg-slate-950 border-t border-white/5 pt-24 pb-12">
+        <footer className="group/footer bg-slate-950 border-t border-white/5 pt-24 pb-12">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16 mb-24">
                     {/* Brand Section */}
