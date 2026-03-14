@@ -2,10 +2,9 @@
 
 import React, { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/footer/Footer';
 import ProductCard from '@/components/cards/ProductCard';
-import { mockProducts, mockCategories } from '@/lib/api/mockData';
+import { useProductStore } from '@/store/useProductStore';
+import { useCategoryStore } from '@/store/useCategoryStore';
 import {
     Filter,
     ChevronDown,
@@ -25,27 +24,75 @@ import { Slider } from '@/components/ui/slider';
 
 const ProductListingContent = () => {
     const searchParams = useSearchParams();
+    const { products } = useProductStore();
+    const { categories } = useCategoryStore();
     const query = searchParams.get('q');
     const imageSearch = searchParams.get('imageSearch');
 
     const [view, setView] = useState<'grid' | 'list'>('grid');
     const [priceRange, setPriceRange] = useState([0, 1000]);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [minRating, setMinRating] = useState<number | null>(null);
+    const [sortBy, setSortBy] = useState<string>('popularity');
+
+    const handleClearFilters = () => {
+        setPriceRange([0, 1000]);
+        setSelectedCategories([]);
+        setMinRating(null);
+        setSortBy('popularity');
+    };
+
+    const toggleCategory = (categoryName: string) => {
+        setSelectedCategories(prev =>
+            prev.includes(categoryName)
+                ? prev.filter(c => c !== categoryName)
+                : [...prev, categoryName]
+        );
+    };
 
     const filteredProducts = useMemo(() => {
-        let products = [...mockProducts];
+        let pList = [...products];
+
+        // Search Query filter
         if (query) {
-            products = products.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+            pList = pList.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
         }
+
+        // Image Search simulation
         if (imageSearch) {
-            // For demo purposes, we randomly slice the array to simulate image search results
-            products = products.slice(0, 3);
+            pList = pList.slice(0, 3);
         }
-        return products;
-    }, [query, imageSearch]);
+
+        // Category filter
+        if (selectedCategories.length > 0) {
+            pList = pList.filter(p => selectedCategories.includes(p.category));
+        }
+
+        // Price filter
+        pList = pList.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
+
+        // Rating filter
+        if (minRating) {
+            pList = pList.filter(p => p.rating >= minRating);
+        }
+
+        // Sorting
+        if (sortBy === 'price-low') {
+            pList.sort((a, b) => a.price - b.price);
+        } else if (sortBy === 'price-high') {
+            pList.sort((a, b) => b.price - a.price);
+        } else if (sortBy === 'rating') {
+            pList.sort((a, b) => b.rating - a.rating);
+        } else if (sortBy === 'newest') {
+            // Newest simulation: assume higher ID or reverse order
+            pList.reverse();
+        }
+
+        return pList;
+    }, [products, query, imageSearch, selectedCategories, priceRange, minRating, sortBy]);
 
     return (
         <div className="min-h-screen bg-background">
-            <Navbar />
 
             <main className="container mx-auto px-4 py-8">
                 {/* Breadcrumbs */}
@@ -61,9 +108,13 @@ const ProductListingContent = () => {
                         <div>
                             <h3 className="font-bold text-lg mb-4">Categories</h3>
                             <div className="space-y-3">
-                                {mockCategories.map((cat) => (
+                                {categories.map((cat) => (
                                     <div key={cat.id} className="flex items-center gap-3">
-                                        <Checkbox id={cat.id} />
+                                        <Checkbox
+                                            id={cat.id}
+                                            checked={selectedCategories.includes(cat.name)}
+                                            onCheckedChange={() => toggleCategory(cat.name)}
+                                        />
                                         <label htmlFor={cat.id} className="text-sm font-medium leading-none cursor-pointer">
                                             {cat.name}
                                         </label>
@@ -95,7 +146,11 @@ const ProductListingContent = () => {
                             <div className="space-y-2">
                                 {[4, 3, 2].map((r) => (
                                     <div key={r} className="flex items-center gap-2 text-sm">
-                                        <Checkbox id={`r-${r}`} />
+                                        <Checkbox
+                                            id={`r-${r}`}
+                                            checked={minRating === r}
+                                            onCheckedChange={() => setMinRating(prev => prev === r ? null : r)}
+                                        />
                                         <label htmlFor={`r-${r}`} className="flex items-center gap-1 cursor-pointer">
                                             {r}+ Stars
                                         </label>
@@ -104,7 +159,11 @@ const ProductListingContent = () => {
                             </div>
                         </div>
 
-                        <Button className="w-full" variant="outline">
+                        <Button
+                            className="w-full"
+                            variant="outline"
+                            onClick={handleClearFilters}
+                        >
                             Clear All Filters
                         </Button>
                     </aside>
@@ -142,14 +201,21 @@ const ProductListingContent = () => {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="outline" className="gap-2">
-                                            Sort By: Popularity <ChevronDown className="h-4 w-4" />
+                                            Sort By: {
+                                                sortBy === 'popularity' ? 'Popularity' :
+                                                    sortBy === 'price-low' ? 'Price: Low to High' :
+                                                        sortBy === 'price-high' ? 'Price: High to Low' :
+                                                            sortBy === 'newest' ? 'Newest First' :
+                                                                sortBy === 'rating' ? 'Best Rating' : 'Popularity'
+                                            } <ChevronDown className="h-4 w-4" />
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
-                                        <DropdownMenuItem>Price: Low to High</DropdownMenuItem>
-                                        <DropdownMenuItem>Price: High to Low</DropdownMenuItem>
-                                        <DropdownMenuItem>Newest First</DropdownMenuItem>
-                                        <DropdownMenuItem>Best Rating</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setSortBy('popularity')}>Popularity</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setSortBy('price-low')}>Price: Low to High</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setSortBy('price-high')}>Price: High to Low</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setSortBy('newest')}>Newest First</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setSortBy('rating')}>Best Rating</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
@@ -181,7 +247,6 @@ const ProductListingContent = () => {
                 </div>
             </main>
 
-            <Footer />
         </div>
     );
 };

@@ -46,7 +46,7 @@ const Navbar = () => {
         { name: 'Gallery', href: '/gallery' },
     ];
 
-    const isHidden = pathname?.startsWith('/admin') || pathname?.startsWith('/vendor');
+    const isHidden = pathname?.startsWith('/admin') || (pathname?.startsWith('/vendor') && !pathname?.startsWith('/vendors'));
 
     if (isHidden) return null;
 

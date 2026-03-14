@@ -23,8 +23,7 @@ const FloatingChatbot = () => {
     const pathname = usePathname();
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const isHidden = pathname?.startsWith('/admin') || pathname?.startsWith('/vendor');
-    if (isHidden) return null;
+    const isHidden = pathname?.startsWith('/admin') || (pathname?.startsWith('/vendor') && !pathname?.startsWith('/vendors'));
 
     // Initial Greeting
     useEffect(() => {
@@ -89,6 +88,8 @@ const FloatingChatbot = () => {
         }, 1500);
     };
 
+    if (isHidden) return null;
+
     return (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
             <AnimatePresence>
@@ -116,9 +117,9 @@ const FloatingChatbot = () => {
                                     <p className="text-xs text-indigo-100 font-medium">Personal Shopping Assistant</p>
                                 </div>
                             </div>
-                            <Button 
-                                variant="ghost" 
-                                size="icon" 
+                            <Button
+                                variant="ghost"
+                                size="icon"
                                 onClick={() => setIsOpen(false)}
                                 className="text-white hover:bg-white/20 h-8 w-8 rounded-full"
                             >
@@ -129,19 +130,18 @@ const FloatingChatbot = () => {
                         {/* Chat Area */}
                         <div className="flex-1 overflow-y-auto p-4 bg-slate-50 dark:bg-slate-900/50 space-y-4">
                             {messages.map((msg) => (
-                                <motion.div 
+                                <motion.div
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    key={msg.id} 
+                                    key={msg.id}
                                     className={`flex max-w-[85%] ${msg.sender === 'user' ? 'ml-auto justify-end' : 'mr-auto justify-start'}`}
                                 >
                                     <div className={`flex flex-col gap-1 ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
-                                        <div 
-                                            className={`p-3 text-sm rounded-2xl shadow-sm ${
-                                                msg.sender === 'user' 
-                                                    ? 'bg-indigo-600 text-white rounded-br-sm' 
+                                        <div
+                                            className={`p-3 text-sm rounded-2xl shadow-sm ${msg.sender === 'user'
+                                                    ? 'bg-indigo-600 text-white rounded-br-sm'
                                                     : 'bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-bl-sm text-slate-800 dark:text-slate-200'
-                                            }`}
+                                                }`}
                                         >
                                             {msg.text}
 
@@ -173,7 +173,7 @@ const FloatingChatbot = () => {
                             ))}
 
                             {isTyping && (
-                                <motion.div 
+                                <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     className="flex max-w-[80%] mr-auto justify-start"
@@ -191,15 +191,15 @@ const FloatingChatbot = () => {
                         {/* Input Area */}
                         <div className="p-3 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 shrink-0">
                             <form onSubmit={handleSend} className="relative flex items-center">
-                                <Input 
+                                <Input
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    placeholder="Ask anything..." 
+                                    placeholder="Ask anything..."
                                     className="pr-12 bg-slate-50 dark:bg-slate-900 border-none rounded-full h-10 focus-visible:ring-1 focus-visible:ring-indigo-500"
                                 />
-                                <Button 
-                                    type="submit" 
-                                    size="icon" 
+                                <Button
+                                    type="submit"
+                                    size="icon"
                                     disabled={!input.trim() || isTyping}
                                     className="absolute right-1 top-1 h-8 w-8 rounded-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50"
                                 >
@@ -219,9 +219,8 @@ const FloatingChatbot = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className={`flex items-center justify-center h-14 w-14 rounded-full shadow-2xl transition-all duration-300 ${
-                    isOpen ? 'bg-slate-800 text-white rotate-90' : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
-                }`}
+                className={`flex items-center justify-center h-14 w-14 rounded-full shadow-2xl transition-all duration-300 ${isOpen ? 'bg-slate-800 text-white rotate-90' : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
+                    }`}
             >
                 {isOpen ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
             </motion.button>

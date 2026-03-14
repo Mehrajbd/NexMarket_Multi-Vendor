@@ -7,22 +7,105 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { mockProducts } from '@/lib/api/mockData';
+import { useProductStore } from '@/store/useProductStore';
+import { useCategoryStore } from '@/store/useCategoryStore';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogDescription,
+    DialogFooter
+} from "@/components/ui/dialog";
+import { Label } from '@/components/ui/label';
 
 const AdminProductsPage = () => {
+    const { products, addProduct, removeProduct } = useProductStore();
+    const { categories } = useCategoryStore();
     const [search, setSearch] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
-    const filtered = mockProducts.filter(p =>
+    // New Product Form State
+    const [newName, setNewName] = useState('');
+    const [newCategory, setNewCategory] = useState(categories[0]?.name || '');
+    const [newPrice, setNewPrice] = useState('');
+    const [newStock, setNewStock] = useState('');
+
+    const handleAddProduct = () => {
+        if (!newName || !newPrice) return;
+        addProduct({
+            name: newName,
+            category: newCategory,
+            price: Number(newPrice),
+            stock: Number(newStock) || 0,
+            images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop'],
+            description: 'New product added via admin portal.',
+            rating: 5.0,
+            reviewsCount: 0,
+            isFeatured: false,
+            vendorId: 'v1',
+            vendorName: 'Admin Panel'
+        });
+        setNewName('');
+        setNewPrice('');
+        setNewStock('');
+        setIsOpen(false);
+    };
+
+    const filtered = products.filter(p =>
         p.name.toLowerCase().includes(search.toLowerCase()) ||
         p.category.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
         <AdminLayout title="Catalog Management" headerRight={
-            <Button size="sm" className="rounded-full bg-indigo-600 font-bold h-8 gap-1.5 px-3 md:px-5">
-                <Plus className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Add Product</span>
-            </Button>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogTrigger asChild>
+                    <Button size="sm" className="rounded-full bg-indigo-600 font-bold h-8 gap-1.5 px-3 md:px-5">
+                        <Plus className="h-3.5 w-3.5" />
+                        <span className="hidden sm:inline">Add Product</span>
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md bg-slate-900 border-white/10 text-white">
+                    <DialogHeader>
+                        <DialogTitle>Add New Product</DialogTitle>
+                        <DialogDescription className="text-slate-400">List a new item in the marketplace catalog.</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <Label>Product Name</Label>
+                            <Input value={newName} onChange={e => setNewName(e.target.value)} placeholder="e.g. Premium Watch" className="bg-slate-800 border-white/10" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label>Price ($)</Label>
+                                <Input type="number" value={newPrice} onChange={e => setNewPrice(e.target.value)} placeholder="199" className="bg-slate-800 border-white/10" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Stock</Label>
+                                <Input type="number" value={newStock} onChange={e => setNewStock(e.target.value)} placeholder="100" className="bg-slate-800 border-white/10" />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Category</Label>
+                            <select
+                                value={newCategory}
+                                onChange={(e) => setNewCategory(e.target.value)}
+                                className="w-full h-10 px-3 rounded-md bg-slate-800 border border-white/10 text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 text-sm"
+                            >
+                                {categories.map(cat => (
+                                    <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="ghost" onClick={() => setIsOpen(false)} className="text-slate-400">Cancel</Button>
+                        <Button onClick={handleAddProduct} className="bg-indigo-600 hover:bg-indigo-700">Add to Catalog</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         }>
             <div className="p-4 md:p-6 space-y-5">
                 {/* Toolbar */}

@@ -9,28 +9,34 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-type UserStatus = 'Active' | 'Disabled';
-
-interface UserRecord {
-    id: string;
-    name: string;
-    email: string;
-    role: 'Customer' | 'Vendor';
-    status: UserStatus;
-    joined: string;
-}
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogDescription,
+    DialogFooter
+} from "@/components/ui/dialog";
+import { useUserStore } from '@/store/useUserStore';
+import { Label } from '@/components/ui/label';
 
 const AdminUsersPage = () => {
-    const [users, setUsers] = useState<UserRecord[]>([
-        { id: 'U-101', name: 'Sarah Johnson', email: 'sarah@example.com', role: 'Customer', status: 'Active', joined: 'Oct 12, 2023' },
-        { id: 'U-102', name: 'Alex Rivera', email: 'alex@work.com', role: 'Vendor', status: 'Active', joined: 'Nov 05, 2023' },
-        { id: 'U-103', name: 'Michael Chen', email: 'mike@chen.io', role: 'Customer', status: 'Disabled', joined: 'Jan 20, 2024' },
-        { id: 'U-104', name: 'Emma Wilson', email: 'emma.w@gmail.com', role: 'Vendor', status: 'Active', joined: 'Feb 14, 2024' },
-    ]);
+    const { users, addUser, toggleStatus } = useUserStore();
     const [search, setSearch] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
-    const toggleStatus = (id: string) => {
-        setUsers(prev => prev.map(u => u.id === id ? { ...u, status: u.status === 'Active' ? 'Disabled' : 'Active' } : u));
+    // New User Form State
+    const [newName, setNewName] = useState('');
+    const [newEmail, setNewEmail] = useState('');
+    const [newRole, setNewRole] = useState<'Customer' | 'Vendor'>('Customer');
+
+    const handleAddUser = () => {
+        if (!newName || !newEmail) return;
+        addUser({ name: newName, email: newEmail, role: newRole, status: 'Active' });
+        setNewName('');
+        setNewEmail('');
+        setIsOpen(false);
     };
 
     const filtered = users.filter(u =>
@@ -40,10 +46,45 @@ const AdminUsersPage = () => {
 
     return (
         <AdminLayout title="User Management" headerRight={
-            <Button size="sm" className="rounded-full bg-indigo-600 font-bold h-8 gap-1.5 px-3 md:px-5">
-                <UserPlus className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Add User</span>
-            </Button>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogTrigger asChild>
+                    <Button size="sm" className="rounded-full bg-indigo-600 font-bold h-8 gap-1.5 px-3 md:px-5">
+                        <UserPlus className="h-3.5 w-3.5" />
+                        <span className="hidden sm:inline">Add User</span>
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md bg-slate-900 border-white/10 text-white">
+                    <DialogHeader>
+                        <DialogTitle>Add New User</DialogTitle>
+                        <DialogDescription className="text-slate-400">Create a new platform account manually.</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">Full Name</Label>
+                            <Input id="name" value={newName} onChange={e => setNewName(e.target.value)} placeholder="e.g. John Doe" className="bg-slate-800 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email Address</Label>
+                            <Input id="email" type="email" value={newEmail} onChange={e => setNewEmail(e.target.value)} placeholder="john@example.com" className="bg-slate-800 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Account Role</Label>
+                            <select
+                                value={newRole}
+                                onChange={(e: any) => setNewRole(e.target.value)}
+                                className="w-full h-10 px-3 rounded-md bg-slate-800 border border-white/10 text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 text-sm"
+                            >
+                                <option value="Customer">Customer</option>
+                                <option value="Vendor">Vendor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="ghost" onClick={() => setIsOpen(false)} className="text-slate-400">Cancel</Button>
+                        <Button onClick={handleAddUser} className="bg-indigo-600 hover:bg-indigo-700">Create Account</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         }>
             <div className="p-4 md:p-6 space-y-5">
                 {/* Stats */}

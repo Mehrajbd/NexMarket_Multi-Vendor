@@ -1,13 +1,16 @@
+'use client';
+
 import Hero from '@/components/home/Hero';
 import CategoryList from '@/components/home/CategoryList';
 import ProductCard from '@/components/cards/ProductCard';
-import { mockProducts } from '@/lib/api/mockData';
+import { useProductStore } from '@/store/useProductStore';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ShieldCheck, Zap, Headphones, Store } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
-  const featuredProducts = mockProducts.filter((p) => p.isFeatured).slice(0, 4);
+  const { products } = useProductStore();
+  const featuredProducts = products.filter((p) => p.isFeatured).slice(0, 4);
 
   return (
     <main className="min-h-screen bg-slate-950">

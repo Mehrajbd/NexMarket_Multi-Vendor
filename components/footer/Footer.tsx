@@ -7,7 +7,7 @@ import { Facebook, Twitter, Instagram, Youtube, Zap, Mail, Phone, ShieldCheck } 
 
 const Footer = () => {
     const pathname = usePathname();
-    const isHidden = pathname?.startsWith('/admin') || pathname?.startsWith('/vendor');
+    const isHidden = pathname?.startsWith('/admin') || (pathname?.startsWith('/vendor') && !pathname?.startsWith('/vendors'));
 
     if (isHidden) return null;
 

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import {
     Activity, Users, Store, CreditCard, ExternalLink,
-    CheckCircle2, XCircle, Clock, MoreHorizontal, Search, Download, TrendingUp
+    CheckCircle2, XCircle, Clock, MoreHorizontal, Search, Download, TrendingUp, Zap
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,228 +19,236 @@ import { motion } from 'framer-motion';
 const AdminDashboard = () => {
     const { vendors } = useVendorStore();
     const [pendingVendors, setPendingVendors] = useState([
-        { id: 'V-8821', name: 'Urban Threads', category: 'Fashion', date: '2 hours ago', status: 'Pending' },
-        { id: 'V-8822', name: 'Pixel Gadgets', category: 'Electronics', date: '5 hours ago', status: 'In Review' },
-        { id: 'V-8823', name: 'Organic Roots', category: 'Health', date: '1 day ago', status: 'Pending' },
+        { id: 'SEC-8821', name: 'Urban Threads', category: 'Luxury Fashion', date: '2h ago', revenue: '$142k', confidence: 98 },
+        { id: 'SEC-8822', name: 'Pixel Gadgets', category: 'Electronics', date: '5h ago', revenue: '$85k', confidence: 92 },
+        { id: 'SEC-8823', name: 'Organic Roots', category: 'Health', date: '1d ago', revenue: '$12k', confidence: 85 },
     ]);
 
-    const handleApprove = (id: string) => {
-        setPendingVendors(prev => prev.filter(v => v.id !== id));
-    };
-    const handleReject = (id: string) => {
-        setPendingVendors(prev => prev.filter(v => v.id !== id));
-    };
+    const handleApprove = (id: string) => setPendingVendors(prev => prev.filter(v => v.id !== id));
+    const handleReject = (id: string) => setPendingVendors(prev => prev.filter(v => v.id !== id));
 
-    const adminStats = [
-        { title: 'Platform GMV', value: '$842,500', trend: '+15.2%', icon: CreditCard, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
-        { title: 'Total Vendors', value: vendors.length.toString(), trend: '+4.5%', icon: Store, color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-950/30' },
-        { title: 'Active Users', value: '45.2k', trend: '+12.4%', icon: Users, color: 'text-sky-500', bg: 'bg-sky-50 dark:bg-sky-950/30' },
-        { title: 'Avg. Retention', value: '68%', trend: '+2.1%', icon: Activity, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-950/30' },
+    const corePulse = [
+        { label: 'PLATFORM GMV', value: '$842,500', trend: '+24%', icon: CreditCard, accent: 'indigo' },
+        { label: 'ACTIVE VENDORS', value: vendors.length.toString(), trend: '+4%', icon: Store, accent: 'emerald' },
+        { label: 'THROUGHPUT', value: '45.2k', trend: '+12%', icon: Activity, accent: 'sky' },
+        { label: 'RETENTION', value: '68%', trend: '+2%', icon: Users, accent: 'rose' },
     ];
 
-    const systemLogs = [
-        { type: 'Store Approved', msg: 'Elite Gadgets approved by Admin', time: '12m ago', icon: CheckCircle2, iconColor: 'text-emerald-500', iconBg: 'bg-emerald-50 dark:bg-emerald-950/30' },
-        { type: 'Payout Processed', msg: '$4,280 payout to TechStore', time: '45m ago', icon: CreditCard, iconColor: 'text-indigo-500', iconBg: 'bg-indigo-50 dark:bg-indigo-950/30' },
-        { type: 'Alert', msg: 'Multiple failed logins - IP: 192.x', time: '1h ago', icon: XCircle, iconColor: 'text-rose-500', iconBg: 'bg-rose-50 dark:bg-rose-950/30' },
-        { type: 'Update', msg: 'Server maintenance scheduled for Sat', time: '3h ago', icon: Clock, iconColor: 'text-amber-500', iconBg: 'bg-amber-50 dark:bg-amber-950/30' },
-        { type: 'Vendor Review', msg: 'Urban Threads waiting for review', time: '5h ago', icon: Store, iconColor: 'text-indigo-500', iconBg: 'bg-indigo-50 dark:bg-indigo-950/30' },
+    const logs = [
+        { id: 1, type: 'AUTH', body: 'SuperAdmin login verified from Tokyo node.', time: 'Just now', color: 'bg-indigo-500' },
+        { id: 2, type: 'SALE', body: 'Large transaction processed: #TX-9921', time: '4m ago', color: 'bg-emerald-500' },
+        { id: 3, type: 'CRIT', body: 'DDoS mitigation active on API endpoint.', time: '12m ago', color: 'bg-rose-500' },
+        { id: 4, type: 'SYNC', body: 'Global product index updated - 12k items.', time: '1h ago', color: 'bg-sky-500' },
     ];
 
     return (
         <AdminLayout
-            title="Platform Overview"
+            title="Terminal Architecture"
             headerRight={
-                <div className="flex items-center gap-2">
-                    <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                        <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-tight">99.9% Uptime</span>
+                <div className="flex items-center gap-6">
+                    <div className="hidden md:flex flex-col items-end">
+                        <p className="text-[9px] font-black tracking-widest text-slate-500 uppercase">Gateway Efficiency</p>
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-white">99.98%</span>
+                            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
+                        </div>
                     </div>
                 </div>
             }
         >
-            <div className="p-4 md:p-6 space-y-6">
-                {/* Page Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Platform Overview</h2>
-                        <p className="text-slate-500 mt-1 text-sm">Global marketplace metrics and administrative actions.</p>
+            <div className="min-h-screen bg-slate-950 p-4 lg:p-12 space-y-12 max-w-[1920px] mx-auto text-slate-300">
+
+                {/* Section 1: Hero Header */}
+                <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-white/5 pb-10">
+                    <div className="space-y-4">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[9px] font-black tracking-[0.25em] uppercase">
+                            <Zap className="h-3 w-3 fill-current" /> System Protocol Active
+                        </div>
+                        <h1 className="text-5xl lg:text-7xl font-black tracking-tighter text-white">
+                            Intelligence <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient-x">Command.</span>
+                        </h1>
+                        <p className="text-slate-500 font-medium text-lg max-w-2xl leading-relaxed">
+                            A unified visual interface for orchestrating global commerce protocols, vendor security auditing, and high-frequency market analysis.
+                        </p>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                        <Button variant="outline" size="sm" className="rounded-full font-bold gap-2">
-                            <Download className="h-3.5 w-3.5" /> Export
+                    <div className="flex flex-wrap gap-4">
+                        <Button className="h-14 px-10 rounded-3xl bg-white text-slate-950 font-black text-[11px] tracking-widest uppercase hover:bg-indigo-50 hover:text-indigo-600 transition-all shadow-2xl shadow-white/5 active:scale-95">
+                            Global Export Protocol
                         </Button>
-                        <Button size="sm" className="rounded-full bg-indigo-600 hover:bg-indigo-700 font-bold shadow-lg shadow-indigo-600/20">
-                            System Settings
+                        <Button variant="outline" className="h-14 w-14 rounded-3xl border-white/5 bg-white/5 text-white p-0 hover:bg-white/10 transition-all">
+                            <MoreHorizontal className="h-5 w-5" />
                         </Button>
                     </div>
                 </div>
 
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
-                    {adminStats.map((stat, idx) => {
-                        const Icon = stat.icon;
-                        return (
-                            <motion.div key={idx} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.08 }}>
-                                <Card className="border-none shadow-sm dark:bg-slate-900/60 hover:shadow-md transition-shadow">
-                                    <CardContent className="p-4 md:p-5">
-                                        <div className="flex items-center justify-between mb-3">
-                                            <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color}`}>
-                                                <Icon className="h-4 w-4 md:h-5 md:w-5" />
-                                            </div>
-                                            <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 border-none text-[10px] font-bold">
-                                                {stat.trend}
-                                            </Badge>
-                                        </div>
-                                        <p className="text-[10px] uppercase tracking-widest font-extrabold text-slate-400 mb-1">{stat.title}</p>
-                                        <h3 className="text-xl md:text-2xl font-bold font-mono">{stat.value}</h3>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        );
-                    })}
+                {/* Section 2: Core Pulse Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {corePulse.map((stat, i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: i * 0.1 }}
+                            whileHover={{ y: -8, scale: 1.02 }}
+                            className="bg-slate-900/30 border border-white/5 p-10 rounded-[48px] relative overflow-hidden group hover:border-indigo-500/30 transition-all duration-500"
+                        >
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/5 blur-[80px] rounded-full group-hover:bg-indigo-500/10 transition-colors" />
+                            <div className="flex justify-between items-start mb-12 relative z-10">
+                                <div className="h-16 w-16 rounded-[24px] bg-slate-950 border border-white/10 flex items-center justify-center group-hover:border-indigo-500/50 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all">
+                                    <stat.icon className="h-7 w-7 text-indigo-400" />
+                                </div>
+                                <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-black text-[9px] tracking-widest uppercase px-3 py-1">
+                                    {stat.trend}
+                                </Badge>
+                            </div>
+                            <div className="space-y-1 relative z-10">
+                                <p className="text-[10px] font-black text-slate-500 tracking-[0.3em] uppercase mb-2">{stat.label}</p>
+                                <h3 className="text-5xl font-black text-white tracking-tighter">{stat.value}</h3>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
 
-                {/* Charts Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                    {/* Revenue Chart */}
-                    <Card className="lg:col-span-2 border-none shadow-sm dark:bg-slate-900/60 overflow-hidden">
-                        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                {/* Section 3: Large Data Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                    {/* Visual Analytics Hub */}
+                    <div className="lg:col-span-8 bg-slate-900/30 border border-white/5 rounded-[64px] p-12 relative overflow-hidden">
+                        <div className="flex items-center justify-between mb-20 relative z-10">
                             <div>
-                                <CardTitle className="text-base font-bold">Platform Revenue</CardTitle>
-                                <p className="text-xs text-slate-500 mt-0.5">Transactional volume across all vendors</p>
+                                <h4 className="text-2xl font-black text-white tracking-tighter">Velocity Matrix</h4>
+                                <p className="text-slate-500 font-medium text-sm">Synthetic monitoring of transactional flows across 12 primary clusters.</p>
                             </div>
-                            <div className="flex gap-1.5">
-                                <Button size="sm" variant="ghost" className="text-xs h-7 px-2.5">Export</Button>
-                                <Button size="sm" className="bg-indigo-500/10 text-indigo-500 hover:bg-indigo-500/20 border-none text-xs font-bold h-7 px-2.5">Weekly</Button>
+                            <div className="flex gap-2">
+                                {['Pulse', 'Volume', 'Audit'].map(mode => (
+                                    <button key={mode} className={`px-5 py-2 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all ${mode === 'Volume' ? 'bg-white text-slate-950' : 'text-slate-500 hover:text-white hover:bg-white/5'}`}>
+                                        {mode}
+                                    </button>
+                                ))}
                             </div>
-                        </CardHeader>
-                        <CardContent className="h-56 md:h-72 pt-6 px-4 md:px-6 flex items-end justify-between gap-1">
-                            {[25, 45, 30, 75, 55, 95, 65, 50, 85, 40, 70, 60].map((h, i) => (
-                                <div key={i} className="flex-1 group relative flex flex-col items-center">
-                                    <div className="absolute -top-8 scale-0 group-hover:scale-100 transition-all bg-slate-800 text-white text-[9px] py-1 px-1.5 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10">
-                                        ${(h * 1.5).toFixed(1)}k
-                                    </div>
-                                    <div
-                                        className="w-full bg-slate-100 dark:bg-slate-800/80 rounded-t-md transition-all group-hover:bg-indigo-500/60 cursor-pointer"
-                                        style={{ height: `${h}%` }}
-                                    />
-                                    <span className="text-[8px] md:text-[10px] font-bold text-slate-400 mt-1">
-                                        {['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'][i]}
-                                    </span>
+                        </div>
+
+                        <div className="h-[450px] flex items-end justify-between gap-5 relative z-10 px-4">
+                            {[30, 55, 40, 85, 60, 100, 75, 45, 90, 65, 95, 82].map((h, i) => (
+                                <div key={i} className="flex-1 group/bar relative h-full flex flex-col justify-end">
+                                    <motion.div
+                                        initial={{ height: 0 }}
+                                        animate={{ height: `${h}%` }}
+                                        transition={{ delay: i * 0.05, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                                        className="w-full relative group-hover/bar:bg-indigo-500/20 transition-all rounded-full overflow-hidden"
+                                    >
+                                        <div className={`w-full h-full rounded-full transition-all duration-700 ${i === 5 ? 'bg-indigo-600 shadow-[0_0_40px_rgba(79,70,229,0.4)]' : 'bg-white/5'}`} />
+                                        {i === 5 && (
+                                            <motion.div
+                                                animate={{ y: [0, -200, 0] }}
+                                                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                                className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent"
+                                            />
+                                        )}
+                                    </motion.div>
+                                    <p className="text-center mt-6 text-[10px] font-black text-slate-600 group-hover/bar:text-white transition-colors tracking-tighter uppercase">
+                                        {['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'][i]}
+                                    </p>
                                 </div>
                             ))}
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
 
-                    {/* System Logs */}
-                    <Card className="border-none shadow-sm dark:bg-slate-900/60">
-                        <CardHeader className="border-b border-slate-100 dark:border-slate-800 pb-3">
-                            <CardTitle className="text-base font-bold flex items-center justify-between">
-                                System Logs
-                                <Button variant="ghost" size="icon" className="h-7 w-7"><MoreHorizontal className="h-4 w-4" /></Button>
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                            <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                                {systemLogs.map((log, i) => (
-                                    <div key={i} className="flex items-start gap-3 p-3 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer group">
-                                        <div className={`mt-0.5 p-1.5 rounded-lg ${log.iconBg} flex-shrink-0`}>
-                                            <log.icon className={`h-3.5 w-3.5 ${log.iconColor}`} />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex justify-between items-baseline gap-1 mb-0.5">
-                                                <p className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 truncate">{log.type}</p>
-                                                <span className="text-[9px] text-slate-400 font-medium flex-shrink-0">{log.time}</span>
-                                            </div>
-                                            <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 truncate group-hover:text-indigo-500 transition-colors">{log.msg}</p>
-                                        </div>
+                    {/* SysLog Terminal */}
+                    <div className="lg:col-span-4 bg-slate-900/30 border border-white/5 rounded-[64px] p-10 flex flex-col relative overflow-hidden">
+                        <div className="flex items-center justify-between mb-12">
+                            <h4 className="text-[11px] font-black tracking-[0.4em] text-slate-500 uppercase">SysLog.Main</h4>
+                            <div className="h-2 w-2 rounded-full bg-indigo-500 animate-ping" />
+                        </div>
+                        <div className="flex-1 space-y-8 overflow-y-auto pr-2 custom-scrollbar">
+                            {logs.map((log) => (
+                                <div key={log.id} className="group cursor-default relative pl-6 border-l border-white/5 hover:border-indigo-500/50 transition-all">
+                                    <div className={`absolute left-[-3px] top-0 h-1.5 w-1.5 rounded-full ${log.color} opacity-0 group-hover:opacity-100 transition-opacity`} />
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-[10px] font-black text-slate-400 tracking-widest uppercase">{log.type}</span>
+                                        <span className="text-[9px] font-bold text-slate-600">{log.time}</span>
                                     </div>
-                                ))}
-                            </div>
-                            <Button variant="ghost" className="w-full text-[10px] font-extrabold uppercase py-3 tracking-widest text-indigo-500 hover:bg-indigo-500/5 rounded-none rounded-b-xl">
-                                View All Logs
-                            </Button>
-                        </CardContent>
-                    </Card>
+                                    <p className="text-[13px] font-bold text-slate-300 group-hover:text-white transition-colors leading-tight">{log.body}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <Button className="mt-12 w-full py-8 rounded-3xl bg-indigo-600/10 border border-indigo-500/20 text-indigo-400 font-black text-[11px] tracking-widest uppercase hover:bg-indigo-600 hover:text-white transition-all">
+                            Access Full Terminal
+                        </Button>
+                    </div>
                 </div>
 
-                {/* Pending Vendor Approvals */}
-                <Card className="border-none shadow-sm dark:bg-slate-900/60 overflow-hidden">
-                    <CardHeader className="border-b border-slate-100 dark:border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                {/* Section 4: Security Onboarding Section */}
+                <div className="space-y-10">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div>
-                            <CardTitle className="text-base font-bold">New Vendor Requests</CardTitle>
-                            <p className="text-xs text-slate-500 mt-0.5">Approve or reject new store applications.</p>
+                            <h4 className="text-3xl font-black text-white tracking-tighter">Priority Audit Queue</h4>
+                            <p className="text-slate-500 font-medium text-lg leading-relaxed">Secured validation of high-potential retail clusters.</p>
                         </div>
-                        <Button variant="outline" size="sm" className="rounded-full gap-2 self-start sm:self-auto">
-                            <ExternalLink className="h-3 w-3" /> Manage All
-                        </Button>
-                    </CardHeader>
-                    {pendingVendors.length === 0 ? (
-                        <CardContent className="py-12 text-center">
-                            <CheckCircle2 className="h-10 w-10 text-emerald-500 mx-auto mb-3" />
-                            <p className="font-bold text-slate-700 dark:text-slate-300">All caught up!</p>
-                            <p className="text-sm text-slate-500">No pending vendor requests right now.</p>
-                        </CardContent>
-                    ) : (
-                        <CardContent className="p-0">
-                            <div className="block md:hidden divide-y dark:divide-slate-800">
-                                {pendingVendors.map((vendor) => (
-                                    <div key={vendor.id} className="p-4 flex items-center justify-between gap-3">
-                                        <div className="flex items-center gap-3 min-w-0">
-                                            <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center font-bold text-indigo-600 flex-shrink-0">
-                                                {vendor.name[0]}
-                                            </div>
-                                            <div className="min-w-0">
-                                                <p className="font-bold text-sm truncate">{vendor.name}</p>
-                                                <p className="text-xs text-slate-500">{vendor.id} · {vendor.date}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 flex-shrink-0">
-                                            <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-red-500/10 hover:text-red-500 transition-colors" onClick={() => handleReject(vendor.id)}>
-                                                <XCircle className="h-4 w-4" />
-                                            </Button>
-                                            <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors" onClick={() => handleApprove(vendor.id)}>
-                                                <CheckCircle2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
+                        <div className="flex items-center gap-6">
+                            <div className="text-right">
+                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Global Status</p>
+                                <p className="text-sm font-black text-emerald-500">CLEAN</p>
                             </div>
-                            <div className="hidden md:block">
+                            <div className="h-10 w-[1px] bg-white/10" />
+                            <Button className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 text-white font-black text-[10px] tracking-widest uppercase hover:bg-white/10 transition-all">
+                                Protocol History
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className="bg-slate-900/30 border border-white/5 rounded-[64px] overflow-hidden">
+                        {pendingVendors.length === 0 ? (
+                            <div className="py-32 text-center space-y-6">
+                                <CheckCircle2 className="h-16 w-16 text-emerald-500/20 mx-auto" />
+                                <h3 className="text-2xl font-black text-slate-600 italic">No manual overrides required.</h3>
+                            </div>
+                        ) : (
+                            <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="hover:bg-transparent border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
-                                            <TableHead className="font-bold text-slate-700 dark:text-slate-300">Store Detail</TableHead>
-                                            <TableHead className="font-bold text-slate-700 dark:text-slate-300">Category</TableHead>
-                                            <TableHead className="font-bold text-slate-700 dark:text-slate-300">Submitted</TableHead>
-                                            <TableHead className="font-bold text-slate-700 dark:text-slate-300 text-right">Actions</TableHead>
+                                        <TableRow className="border-none hover:bg-transparent px-8">
+                                            <TableHead className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] h-24 px-12">Entity.ID</TableHead>
+                                            <TableHead className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Sector</TableHead>
+                                            <TableHead className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Security Depth</TableHead>
+                                            <TableHead className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] text-right px-12">Protocol Output</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {pendingVendors.map((vendor) => (
-                                            <TableRow key={vendor.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors border-slate-100 dark:border-slate-800">
-                                                <TableCell>
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center font-bold text-indigo-600">
+                                        {pendingVendors.map((vendor, vidx) => (
+                                            <TableRow key={vendor.id} className="group border-white/5 hover:bg-white/[0.03] transition-colors border-t">
+                                                <TableCell className="px-12 py-10">
+                                                    <div className="flex items-center gap-8">
+                                                        <div className="h-20 w-20 rounded-[32px] bg-slate-950 border border-white/5 flex items-center justify-center text-2xl font-black text-white group-hover:border-indigo-500/50 group-hover:shadow-[0_0_30px_rgba(99,102,241,0.2)] transition-all">
                                                             {vendor.name[0]}
                                                         </div>
-                                                        <div>
-                                                            <p className="font-bold text-sm">{vendor.name}</p>
-                                                            <p className="text-xs text-muted-foreground">{vendor.id}</p>
+                                                        <div className="space-y-2">
+                                                            <p className="font-black text-2xl text-white tracking-tighter leading-none">{vendor.name}</p>
+                                                            <p className="text-[11px] font-bold text-slate-500 italic uppercase tracking-wider">{vendor.id} · Received {vendor.date}</p>
                                                         </div>
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
-                                                    <Badge variant="secondary" className="rounded-full font-bold text-[10px] px-2.5">{vendor.category}</Badge>
+                                                    <Badge className="rounded-xl font-black text-[10px] uppercase tracking-widest px-4 py-2 bg-white/5 text-slate-400 border border-white/10">{vendor.category}</Badge>
                                                 </TableCell>
-                                                <TableCell className="text-xs font-bold text-slate-500">{vendor.date}</TableCell>
-                                                <TableCell className="text-right">
-                                                    <div className="flex justify-end gap-2">
-                                                        <Button variant="ghost" size="sm" className="h-8 gap-1.5 font-bold border border-red-200 text-red-500 hover:bg-red-50 dark:border-red-900/50 dark:hover:bg-red-900/20 rounded-lg px-3" onClick={() => handleReject(vendor.id)}>
-                                                            <XCircle className="h-3.5 w-3.5" /> Reject
+                                                <TableCell>
+                                                    <div className="space-y-4 max-w-[220px]">
+                                                        <div className="flex justify-between items-center text-[10px] font-black text-indigo-400 uppercase tracking-widest">
+                                                            <span>Confidence</span>
+                                                            <span>{vendor.confidence}%</span>
+                                                        </div>
+                                                        <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden p-[1px]">
+                                                            <motion.div initial={{ width: 0 }} animate={{ width: `${vendor.confidence}%` }} transition={{ delay: 0.5 + (vidx * 0.1), duration: 2, ease: "circOut" }} className="h-full bg-indigo-500 rounded-full shadow-[0_0_15px_#6366f1]" />
+                                                        </div>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell className="text-right px-12">
+                                                    <div className="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-all translate-x-10 group-hover:translate-x-0">
+                                                        <Button variant="ghost" onClick={() => handleReject(vendor.id)} className="h-14 px-8 rounded-2xl border border-rose-500/20 text-rose-500 font-black text-[11px] tracking-widest uppercase hover:bg-rose-500 hover:text-white transition-all active:scale-95">
+                                                            Reject Protocol
                                                         </Button>
-                                                        <Button size="sm" className="h-8 gap-1.5 font-bold bg-emerald-600 hover:bg-emerald-700 rounded-lg px-3 shadow-md shadow-emerald-500/20" onClick={() => handleApprove(vendor.id)}>
-                                                            <CheckCircle2 className="h-3.5 w-3.5" /> Approve
+                                                        <Button onClick={() => handleApprove(vendor.id)} className="h-14 px-10 rounded-2xl bg-indigo-600 text-white font-black text-[11px] tracking-widest uppercase hover:bg-indigo-500 hover:shadow-2xl hover:shadow-indigo-600/40 transition-all active:scale-95">
+                                                            Grant Clearance
                                                         </Button>
                                                     </div>
                                                 </TableCell>
@@ -249,9 +257,9 @@ const AdminDashboard = () => {
                                     </TableBody>
                                 </Table>
                             </div>
-                        </CardContent>
-                    )}
-                </Card>
+                        )}
+                    </div>
+                </div>
             </div>
         </AdminLayout>
     );

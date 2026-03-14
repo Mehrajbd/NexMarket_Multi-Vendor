@@ -28,6 +28,19 @@ const AdminOrdersPage = () => {
     const [search, setSearch] = useState('');
     const [filterStatus, setFilterStatus] = useState<string | null>(null);
 
+    const handleDownload = () => {
+        // Mock CSV Generation
+        const headers = "Order ID,Customer,Vendor,Amount,Status,Date\n";
+        const rows = filtered.map(o => `${o.id},${o.customer},${o.vendor},${o.amount},${o.status},${o.date}`).join("\n");
+        const blob = new Blob([headers + rows], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Invoices_${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
     const filtered = mockOrders.filter(o =>
         o.id.toLowerCase().includes(search.toLowerCase()) ||
         o.customer.toLowerCase().includes(search.toLowerCase()) ||
@@ -38,8 +51,13 @@ const AdminOrdersPage = () => {
 
     return (
         <AdminLayout title="Platform Orders" headerRight={
-            <Button variant="outline" size="sm" className="rounded-full font-bold h-8 gap-1.5 hidden sm:flex">
-                <Download className="h-3.5 w-3.5" /> Invoices
+            <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDownload}
+                className="rounded-full font-bold h-8 gap-1.5 hidden sm:flex border-indigo-200 text-indigo-600 hover:bg-indigo-50"
+            >
+                <Download className="h-3.5 w-3.5" /> Download Invoices
             </Button>
         }>
             <div className="p-4 md:p-6 space-y-5">
