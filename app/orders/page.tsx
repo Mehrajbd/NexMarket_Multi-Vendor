@@ -7,6 +7,7 @@ import { Package, Truck, CheckCircle2, Clock, ChevronRight, Store } from 'lucide
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
 import VendorChatDialog from '@/components/chat/VendorChatDialog';
 
 // Mock Orders Data

@@ -69,7 +69,7 @@ const AuthDialog = ({ open, onOpenChange, onSuccess }: AuthDialogProps) => {
                                 <span className="text-indigo-200">the Future</span> <br />
                                 of Commerce.
                             </h2>
-                            <p className="text-indigo-100/80 text-lg">Join 50,000+ users trading on the world's most secure marketplace.</p>
+                            <p className="text-indigo-100/80 text-lg">Join 50,000+ users trading on the world&apos;s most secure marketplace.</p>
                         </div>
 
                         <div className="relative z-10 space-y-6">

@@ -83,7 +83,7 @@ const VendorsPage = () => {
                                     </div>
 
                                     <p className="text-slate-500 text-sm font-medium mb-10 line-clamp-2 px-2 leading-relaxed italic">
-                                        "{vendor.description}"
+                                        &quot;{vendor.description}&quot;
                                     </p>
 
                                     <div className="flex gap-4">

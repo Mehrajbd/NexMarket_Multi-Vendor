@@ -247,7 +247,7 @@ const ProductDetail = ({ params }: { params: { id: string } }) => {
                                                 </div>
                                                 <span className="text-xs text-muted-foreground">{review.date}</span>
                                             </div>
-                                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed italic">"{review.text}"</p>
+                                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed italic">&quot;{review.text}&quot;</p>
                                         </div>
                                     ))}
                                 </div>

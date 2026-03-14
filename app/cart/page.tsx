@@ -25,7 +25,7 @@ const CartPage = () => {
                             <ShoppingBag className="h-10 w-10 text-muted-foreground" />
                         </div>
                         <h1 className="text-3xl font-bold mb-4">Your cart is empty</h1>
-                        <p className="text-muted-foreground mb-8">Looks like you haven't added anything to your cart yet.</p>
+                        <p className="text-muted-foreground mb-8">Looks like you haven&apos;t added anything to your cart yet.</p>
                         <Link href="/products">
                             <Button size="lg" className="rounded-full px-8">Return to Shop</Button>
                         </Link>

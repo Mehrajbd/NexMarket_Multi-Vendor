@@ -30,7 +30,7 @@ const Hero = () => {
                                     <span className="bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent">of Excellence.</span>
                                 </h1>
                                 <p className="text-slate-400 text-lg md:text-xl font-medium max-w-lg mb-12 leading-relaxed">
-                                    Discover a curated selection of premium essentials from the world's most innovative brands and makers.
+                                    Discover a curated selection of premium essentials from the world&apos;s most innovative brands and makers.
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row gap-5 mb-16">
