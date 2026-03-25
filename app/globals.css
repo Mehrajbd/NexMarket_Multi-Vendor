@@ -2,71 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 220 14% 10%;
     
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 220 14% 10%;
  
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 220 14% 10%;
  
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 197 100% 46%;
+    --primary-foreground: 0 0% 100%;
  
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 220 14% 10%;
  
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 220 9% 46%;
  
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 330 82% 50%;
+    --accent-foreground: 0 0% 100%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 262.1 83.3% 57.8%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 197 100% 46%;
  
-    --radius: 0.75rem;
-  }
- 
-  .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 40% 98%;
- 
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 40% 98%;
- 
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 40% 98%;
- 
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
- 
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 263.4 70% 50.4%;
-  }
+    --radius: 0.5rem;
 
-  html {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    /* Ecome Theme Colors */
+    --ecome-blue: #00a6eb;
+    --ecome-pink: #e91e8c;
+    --ecome-dark: #1a1a2e;
+    --ecome-text: #1d1d1d;
+    --ecome-gray: #f5f5f5;
+    --ecome-border: #e8e8e8;
+    --ecome-muted: #777;
+    --ecome-red: #e53935;
   }
 }
 
@@ -77,40 +55,122 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--ecome-text);
   }
 }
 
 /* Custom Utilities */
 @layer utilities {
+  .ecome-gradient {
+    background: linear-gradient(135deg, var(--ecome-blue), var(--ecome-pink));
+  }
+
+  .ecome-gradient-text {
+    background: linear-gradient(135deg, var(--ecome-blue), var(--ecome-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ecome-btn {
+    background: linear-gradient(135deg, var(--ecome-blue), var(--ecome-pink));
+    @apply text-white font-semibold rounded-full px-6 py-2.5 transition-all duration-300 hover:opacity-90 hover:shadow-lg active:scale-95;
+  }
+
+  .ecome-search-btn {
+    background: linear-gradient(135deg, #7e57c2, var(--ecome-pink));
+    @apply text-white rounded-full p-3 transition-all duration-300 hover:opacity-90;
+  }
+
+  .product-card {
+    @apply bg-white border border-[#e8e8e8] rounded-lg overflow-hidden transition-all duration-300 hover:border-[#00a6eb]/30 hover:shadow-xl;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold text-[#1d1d1d] mb-1;
+  }
+
+  .ecome-tag {
+    @apply text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full;
+  }
+
   .glass-morphism {
     @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl;
   }
 
   .glass-card {
-    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-slate-800/50 shadow-xl;
-  }
-
-  .text-glow {
-    text-shadow: 0 0 15px rgba(var(--primary), 0.5);
-  }
-
-  .premium-gradient {
-    @apply bg-gradient-to-br from-indigo-500 via-violet-600 to-fuchsia-600;
-  }
-
-  .glass-dark {
-    @apply bg-slate-900/50 backdrop-blur-md border border-slate-800/50 shadow-2xl;
+    @apply bg-white backdrop-blur-md border border-[#e8e8e8] shadow-sm;
   }
 
   .text-balance {
     text-wrap: balance;
   }
+
+  .category-sidebar-item {
+    @apply flex items-center justify-between px-4 py-3 text-sm text-gray-700 hover:text-[#00a6eb] hover:bg-[#f0f8ff] transition-colors cursor-pointer border-b border-gray-100 last:border-0;
+  }
 }
 
-.glass {
-  @apply bg-white/10 backdrop-blur-md border border-white/20;
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00a6eb;
 }
 
-.dark .glass {
-  @apply bg-black/20 backdrop-blur-md border border-white/10;
+/* Countdown Timer */
+.countdown-box {
+  @apply flex flex-col items-center justify-center w-12 h-12 bg-white rounded-lg shadow-sm;
+}
+
+/* Flash deal progress bar */
+.progress-bar {
+  @apply h-1.5 rounded-full bg-gradient-to-r from-violet-500 to-pink-500;
+}
+
+/* Announcement bar */
+.announce-bar {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+/* Category hover */
+.nav-tab {
+  @apply relative text-sm font-semibold text-gray-700 hover:text-[#00a6eb] transition-colors py-2 px-1;
+}
+.nav-tab.active {
+  color: var(--ecome-blue);
+}
+.nav-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ecome-blue);
+  border-radius: 1px;
+}
+
+/* Product Card Hover Effects */
+.product-card .quick-actions {
+  @apply absolute bottom-4 left-0 right-0 flex justify-center gap-3 opacity-0 translate-y-4 transition-all duration-300;
+}
+.product-card:hover .quick-actions {
+  @apply opacity-100 translate-y-0;
+}
+
+/* Rating Stars */
+.star-filled {
+  color: #ff9f43;
+  fill: #ff9f43;
 }

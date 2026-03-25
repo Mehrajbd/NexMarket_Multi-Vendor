@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: ["class"],
+    darkMode: false,
     content: [
         './pages/**/*.{ts,tsx}',
         './components/**/*.{ts,tsx}',
@@ -50,6 +50,9 @@ module.exports = {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
                 },
+            },
+            gridTemplateColumns: {
+                '14': 'repeat(14, minmax(0, 1fr))',
             },
             borderRadius: {
                 lg: "var(--radius)",
